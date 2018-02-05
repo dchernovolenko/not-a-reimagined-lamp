@@ -43,6 +43,7 @@ function storeGuess(event) {
 var clearcan = function(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
+    t = 0;
 }
 
 
