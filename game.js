@@ -5,26 +5,31 @@ var ctx = canvas.getContext("2d");
 var t = 0;
 var guessX = 0;
 var guessY = 0;
+var oldX = 0;
+var oldY = 0;
+ctx.beginPath();
 
-var drawrect = function(x, y){
-    ctx.fillRect(x, y, 20, 20);
-}
 
 var drawcirc = function(x,y){
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2* Math.PI);
-    ctx.stroke()
     ctx.fill();
+    if(t==0){
+        ctx.moveTo(x,y)
+    }
+    else{
+        ctx.moveTo(oldX, oldY)
+        ctx.lineTo(x,y)
+    }
+    ctx.stroke();
+    t += 1;
+    oldX = x;
+    oldY = y;
 }
 
 var draw = function(){
     storeGuess(event);
-    if( t == 0) {
-        drawcirc(guessX, guessY);
-    }
-    else{
-        drawrect(guessX, guessY);
-    }
+    drawcirc(guessX, guessY);
 }
 
 function storeGuess(event) {
@@ -37,17 +42,9 @@ function storeGuess(event) {
 
 var clearcan = function(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
 }
 
-var togglefunc = function(){
-    if( t ==0){
-        t = 1;
-    }
-    else {
-        t= 0;
-    }
-}
 
 clear.addEventListener("click", clearcan);
-toggle.addEventListener("click", togglefunc);
 canvas.addEventListener("click", draw);
